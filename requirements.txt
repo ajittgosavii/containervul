@@ -1,0 +1,138 @@
+# ==============================================================================
+# CONTAINER VULNERABILITY MANAGEMENT PLATFORM - STREAMLIT CLOUD VERSION
+# ==============================================================================
+
+# Core Streamlit framework
+streamlit>=1.28.0
+
+# Data manipulation and analysis
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Interactive plotting and visualization
+plotly>=5.15.0
+
+# HTTP requests for CVE API integration
+requests>=2.31.0
+urllib3>=2.0.0
+
+# ==============================================================================
+# AI INTEGRATION
+# ==============================================================================
+
+# Claude AI Integration for remediation recommendations
+anthropic>=0.8.0
+
+# ==============================================================================
+# SECURITY AND VULNERABILITY ANALYSIS
+# ==============================================================================
+
+# CVE database integration and security analysis
+# Note: Using requests for API calls instead of specialized packages for cloud compatibility
+
+# Cryptography for security utilities (lightweight)
+cryptography>=41.0.0
+
+# ==============================================================================
+# DATA PROCESSING AND VALIDATION
+# ==============================================================================
+
+# Data validation and settings management
+pydantic>=2.4.0
+
+# JSON processing (built-in, but ensuring compatibility)
+# json - built-in Python module
+
+# ==============================================================================
+# ENHANCED STREAMLIT COMPONENTS (OPTIONAL)
+# ==============================================================================
+
+# Interactive data tables (optional - may cause deployment issues)
+# streamlit-aggrid>=0.3.4
+
+# Navigation menus (optional)
+# streamlit-option-menu>=0.3.6
+
+# ==============================================================================
+# DATE AND TIME PROCESSING
+# ==============================================================================
+
+# Enhanced date/time handling
+python-dateutil>=2.8.0
+
+# ==============================================================================
+# REGULAR EXPRESSIONS AND TEXT PROCESSING
+# ==============================================================================
+
+# Enhanced regex capabilities (built-in re module should suffice)
+# regex>=2023.8.8
+
+# ==============================================================================
+# LOGGING AND ERROR HANDLING
+# ==============================================================================
+
+# Structured logging (lightweight)
+# Note: Using built-in logging module for cloud compatibility
+
+# ==============================================================================
+# CLOUD-SPECIFIC OPTIMIZATIONS
+# ==============================================================================
+
+# Caching and performance
+cachetools>=5.3.0
+
+# Memory optimization
+psutil>=5.9.0
+
+# ==============================================================================
+# OPTIONAL: ENHANCED FEATURES (Uncomment if needed)
+# ==============================================================================
+
+# Excel export capabilities (optional)
+# openpyxl>=3.1.0
+
+# Advanced text processing (optional)
+# textblob>=0.17.1
+
+# Enhanced HTTP client (optional)
+# httpx>=0.24.0
+
+# ==============================================================================
+# TESTING AND DEVELOPMENT (For local development only)
+# ==============================================================================
+
+# Uncomment for local development:
+# pytest>=7.4.0
+# black>=23.7.0
+# flake8>=6.0.0
+
+# ==============================================================================
+# STREAMLIT CLOUD DEPLOYMENT NOTES
+# ==============================================================================
+#
+# 1. This requirements.txt is optimized for Streamlit Cloud deployment
+#
+# 2. Removed dependencies that don't work in cloud environment:
+#    - docker (requires Docker daemon)
+#    - kubernetes (requires cluster access)
+#    - system-level security tools
+#
+# 3. Focused on:
+#    - CVE database integration via APIs
+#    - AI-powered analysis and recommendations
+#    - Dockerfile security analysis (text-based)
+#    - Report generation and visualization
+#
+# 4. Secrets configuration:
+#    Add the following to your Streamlit Cloud app secrets:
+#    CLAUDE_API_KEY = "your_anthropic_api_key_here"
+#
+# 5. App URL structure:
+#    https://your-app-name.streamlit.app
+#
+# 6. Performance considerations:
+#    - Uses @st.cache_data for API responses
+#    - Lightweight dependencies for fast deployment
+#    - Optimized for cloud resource constraints
+#
+# ==============================================================================
