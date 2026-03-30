@@ -24,6 +24,7 @@ PAGES = {
     "reports":        ("Reports",           "containervul.ui.pages.reports"),
     "audit_log":      ("Audit Log",         "containervul.ui.pages.audit_log"),
     "accounts":       ("Accounts",          "containervul.ui.pages.accounts"),
+    "servicenow":     ("ServiceNow",        "containervul.ui.pages.servicenow"),
 }
 
 NAV_GROUPS = {
@@ -31,6 +32,7 @@ NAV_GROUPS = {
     "Intelligence":  ["cve", "agent_chat"],
     "Analysis":      ["dashboard", "analytics", "compliance"],
     "Remediation":   ["ai_remediation"],
+    "Integrations":  ["servicenow"],
     "Management":    ["reports", "audit_log", "accounts"],
 }
 
@@ -96,7 +98,7 @@ class ContainerVulnerabilityPlatform:
         <div class="main-header">
             <h1>Enterprise Container Vulnerability Management</h1>
             <p style="font-size:1.1rem;margin-top:0.5rem;">
-                Multi-Cloud Security &bull; Agentic AI &bull; MCP Integration &bull; Compliance Frameworks
+                Multi-Cloud Security &bull; Agentic AI &bull; MCP Integration &bull; ServiceNow &bull; Compliance
             </p>
             <p style="font-size:0.9rem;opacity:0.9;">
                 EKS &bull; ECS &bull; AKS &bull; ACI &bull; GKE &bull; Cloud Run &bull; Multi-Account Support

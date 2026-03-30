@@ -40,6 +40,18 @@ class Settings(BaseSettings):
     storage_backend: str = Field("session", description="session | sqlite")
     sqlite_path: str = "containervul.db"
 
+    # --- ServiceNow ---
+    servicenow_instance: str = ""  # e.g. https://devXXXXX.service-now.com
+    servicenow_username: str = ""
+    servicenow_password: str = ""
+    servicenow_auth_method: str = Field("basic", description="basic | oauth")
+    servicenow_oauth_client_id: str = ""
+    servicenow_oauth_client_secret: str = ""
+    servicenow_auto_create_threshold: str = "HIGH"  # minimum severity for auto-ticket
+    servicenow_default_assignment_group: str = "Container Security"
+    servicenow_cmdb_sync_enabled: bool = False
+    servicenow_bidirectional_sync: bool = False
+
     # --- MCP ---
     mcp_transport: str = Field("stdio", description="stdio | sse")
     mcp_port: int = 8100

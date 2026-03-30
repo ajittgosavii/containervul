@@ -137,6 +137,77 @@ def list_tracked_vulnerabilities(severity_filter: str = "ALL") -> str:
     }, indent=2)
 
 
+# ── ServiceNow MCP Tools ─────────────────────────────────────────────────────
+
+@mcp.tool()
+def servicenow_test_connection() -> str:
+    """Test the ServiceNow connection and return instance info."""
+    from containervul.integrations.servicenow.client import ServiceNowClient
+    client = ServiceNowClient()
+    return json.dumps(client.test_connection(), indent=2)
+
+
+@mcp.tool()
+def servicenow_create_incident(vulnerability_id: str, additional_notes: str = "") -> str:
+    """Create a ServiceNow incident for a tracked container vulnerability."""
+    vuln = next((v for v in _tracked_vulns if v.id == vulnerability_id), None)
+    if not vuln:
+        return json.dumps({"error": f"Vulnerability {vulnerability_id} not found"})
+    from containervul.integrations.servicenow.tickets import VulnerabilityTicketManager
+    mgr = VulnerabilityTicketManager()
+    image = vuln.image.image_uri if vuln.image else ""
+    cluster = vuln.image.cluster_name if vuln.image else ""
+    provider = vuln.image.cloud_provider.value if vuln.image and vuln.image.cloud_provider else ""
+    ticket = mgr.create_incident(vuln, image, cluster, provider, additional_notes)
+    return json.dumps(ticket, indent=2, default=str)
+
+
+@mcp.tool()
+def servicenow_bulk_create_incidents(severity_threshold: str = "HIGH") -> str:
+    """Create ServiceNow incidents for all tracked vulnerabilities above severity threshold."""
+    from containervul.integrations.servicenow.tickets import VulnerabilityTicketManager
+    mgr = VulnerabilityTicketManager()
+    result = mgr.bulk_create_incidents(_tracked_vulns, severity_threshold)
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def servicenow_search_tickets(cve_id: str = "", image_name: str = "", priority: str = "", limit: int = 20) -> str:
+    """Search ServiceNow for existing vulnerability incidents."""
+    from containervul.integrations.servicenow.tickets import VulnerabilityTicketManager
+    mgr = VulnerabilityTicketManager()
+    tickets = mgr.search_tickets(cve_id, image_name, priority, limit)
+    return json.dumps({"count": len(tickets), "tickets": tickets}, indent=2, default=str)
+
+
+@mcp.tool()
+def servicenow_sync_cmdb(asset_type: str, name: str, tag: str = "latest", cloud_provider: str = "") -> str:
+    """Sync a container image, cluster, or service to ServiceNow CMDB as a Configuration Item."""
+    from containervul.integrations.servicenow.cmdb import ContainerCMDBSync
+    cmdb = ContainerCMDBSync()
+    if asset_type == "image":
+        result = cmdb.sync_container_image(name, tag, cloud_provider=cloud_provider)
+    elif asset_type == "cluster":
+        result = cmdb.sync_cluster(name, cloud_provider)
+    elif asset_type == "service":
+        result = cmdb.sync_service(name, cloud_provider)
+    else:
+        result = {"error": f"Unknown asset_type: {asset_type}. Use image, cluster, or service."}
+    return json.dumps(result, indent=2, default=str)
+
+
+@mcp.tool()
+def servicenow_create_change_request(vulnerability_id: str, remediation_action: str, container_image: str = "") -> str:
+    """Create a ServiceNow change request for vulnerability remediation requiring a change window."""
+    vuln = next((v for v in _tracked_vulns if v.id == vulnerability_id), None)
+    if not vuln:
+        return json.dumps({"error": f"Vulnerability {vulnerability_id} not found"})
+    from containervul.integrations.servicenow.tickets import VulnerabilityTicketManager
+    mgr = VulnerabilityTicketManager()
+    result = mgr.create_change_request(vuln, remediation_action, container_image)
+    return json.dumps(result, indent=2, default=str)
+
+
 @mcp.resource("containervul://status")
 def get_platform_status() -> str:
     """Get current platform status — tracked vulnerabilities and configured accounts."""

@@ -154,6 +154,72 @@ TOOL_DEFINITIONS: List[Dict[str, Any]] = [
             "required": [],
         },
     },
+    # ── ServiceNow Tools ─────────────────────────────────────────────────
+    {
+        "name": "servicenow_create_incident",
+        "description": "Create a ServiceNow incident for a container vulnerability. Maps severity to priority and populates all fields automatically.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "vulnerability_id": {"type": "string", "description": "ID of the vulnerability to create a ticket for"},
+                "additional_notes": {"type": "string", "description": "Optional notes to add to the incident"},
+            },
+            "required": ["vulnerability_id"],
+        },
+    },
+    {
+        "name": "servicenow_bulk_create_incidents",
+        "description": "Create ServiceNow incidents for multiple vulnerabilities at once. Filters by severity threshold and skips duplicates.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "severity_threshold": {"type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"], "default": "HIGH"},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "servicenow_search_tickets",
+        "description": "Search ServiceNow for existing vulnerability incidents by CVE ID, container image, or priority.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "cve_id": {"type": "string", "description": "CVE ID to search for"},
+                "image_name": {"type": "string", "description": "Container image name to search for"},
+                "priority": {"type": "string", "enum": ["1", "2", "3", "4"], "description": "ServiceNow priority (1=Critical, 4=Low)"},
+                "limit": {"type": "integer", "default": 20},
+            },
+            "required": [],
+        },
+    },
+    {
+        "name": "servicenow_sync_cmdb",
+        "description": "Register a container image or Kubernetes cluster as a Configuration Item in ServiceNow CMDB.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "asset_type": {"type": "string", "enum": ["image", "cluster", "service"], "description": "Type of asset to sync"},
+                "name": {"type": "string", "description": "Image name, cluster name, or service name"},
+                "tag": {"type": "string", "description": "Image tag (for images)", "default": "latest"},
+                "cloud_provider": {"type": "string", "enum": ["aws", "azure", "gcp"], "description": "Cloud provider"},
+                "cluster_name": {"type": "string", "description": "Cluster name (for services)"},
+            },
+            "required": ["asset_type", "name"],
+        },
+    },
+    {
+        "name": "servicenow_create_change_request",
+        "description": "Create a ServiceNow change request for vulnerability remediation that requires a change window.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "vulnerability_id": {"type": "string", "description": "Vulnerability ID"},
+                "remediation_action": {"type": "string", "description": "Planned remediation action (e.g., 'Rebuild image with patched base')"},
+                "container_image": {"type": "string", "description": "Container image being remediated"},
+            },
+            "required": ["vulnerability_id", "remediation_action"],
+        },
+    },
 ]
 
 
@@ -183,6 +249,11 @@ class ToolExecutor:
             "scan_cloud_service": self._scan_cloud_service,
             "check_compliance": self._check_compliance,
             "list_cloud_accounts": self._list_cloud_accounts,
+            "servicenow_create_incident": self._snow_create_incident,
+            "servicenow_bulk_create_incidents": self._snow_bulk_create,
+            "servicenow_search_tickets": self._snow_search_tickets,
+            "servicenow_sync_cmdb": self._snow_sync_cmdb,
+            "servicenow_create_change_request": self._snow_create_change,
         }
 
     def execute(self, tool_name: str, tool_input: Dict[str, Any]) -> str:
@@ -317,6 +388,53 @@ class ToolExecutor:
                 for a in accounts
             ]
         }
+
+    # ── ServiceNow Handlers ─────────────────────────────────────────────
+
+    def _get_snow_ticket_mgr(self):
+        from containervul.integrations.servicenow.tickets import VulnerabilityTicketManager
+        return VulnerabilityTicketManager()
+
+    def _get_snow_cmdb(self):
+        from containervul.integrations.servicenow.cmdb import ContainerCMDBSync
+        return ContainerCMDBSync()
+
+    def _snow_create_incident(self, vulnerability_id: str, additional_notes: str = "") -> Dict:
+        vuln = next((v for v in self._vulns if v.id == vulnerability_id), None)
+        if not vuln:
+            return {"error": f"Vulnerability {vulnerability_id} not found in tracked vulnerabilities"}
+        mgr = self._get_snow_ticket_mgr()
+        image = vuln.image.image_uri if vuln.image else ""
+        cluster = vuln.image.cluster_name if vuln.image else ""
+        provider = vuln.image.cloud_provider.value if vuln.image and vuln.image.cloud_provider else ""
+        ticket = mgr.create_incident(vuln, image, cluster, provider, additional_notes)
+        return ticket
+
+    def _snow_bulk_create(self, severity_threshold: str = "HIGH") -> Dict:
+        mgr = self._get_snow_ticket_mgr()
+        return mgr.bulk_create_incidents(self._vulns, severity_threshold)
+
+    def _snow_search_tickets(self, cve_id: str = "", image_name: str = "", priority: str = "", limit: int = 20) -> Dict:
+        mgr = self._get_snow_ticket_mgr()
+        tickets = mgr.search_tickets(cve_id, image_name, priority, limit)
+        return {"count": len(tickets), "tickets": tickets}
+
+    def _snow_sync_cmdb(self, asset_type: str, name: str, tag: str = "latest", cloud_provider: str = "", cluster_name: str = "") -> Dict:
+        cmdb = self._get_snow_cmdb()
+        if asset_type == "image":
+            return cmdb.sync_container_image(name, tag, cloud_provider=cloud_provider, cluster_name=cluster_name)
+        elif asset_type == "cluster":
+            return cmdb.sync_cluster(name, cloud_provider)
+        elif asset_type == "service":
+            return cmdb.sync_service(name, cloud_provider, cluster_name)
+        return {"error": f"Unknown asset type: {asset_type}"}
+
+    def _snow_create_change(self, vulnerability_id: str, remediation_action: str, container_image: str = "") -> Dict:
+        vuln = next((v for v in self._vulns if v.id == vulnerability_id), None)
+        if not vuln:
+            return {"error": f"Vulnerability {vulnerability_id} not found"}
+        mgr = self._get_snow_ticket_mgr()
+        return mgr.create_change_request(vuln, remediation_action, container_image)
 
     # ── Helpers ──────────────────────────────────────────────────────────
 
