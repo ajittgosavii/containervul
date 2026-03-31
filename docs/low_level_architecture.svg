@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1300" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="lhdr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0f3460"/>
+      <stop offset="100%" style="stop-color:#533483"/>
+    </linearGradient>
+    <filter id="ds" x="-2%" y="-2%" width="106%" height="108%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#00000020"/>
+    </filter>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0,8 3,0 6" fill="#888"/>
+    </marker>
+  </defs>
+
+  <rect width="1500" height="1300" fill="#f8f9ff" rx="10"/>
+
+  <!-- Header -->
+  <rect x="20" y="10" width="1460" height="50" rx="8" fill="url(#lhdr)"/>
+  <text x="750" y="42" text-anchor="middle" fill="white" font-size="22" font-weight="bold">ContainerVul — Low Level Architecture (Package &amp; Class Diagram)</text>
+
+  <!-- ====== containervul/core/ ====== -->
+  <rect x="30" y="80" width="350" height="310" rx="8" fill="white" stroke="#f5576c" stroke-width="2" filter="url(#ds)"/>
+  <rect x="30" y="80" width="350" height="28" rx="8" fill="#f5576c"/>
+  <text x="205" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/core/</text>
+
+  <text x="45" y="128" fill="#333" font-size="11" font-weight="bold">CVEIntegrator</text>
+  <text x="55" y="144" fill="#666" font-size="10">get_cve_details(cve_id) → Dict</text>
+  <text x="55" y="158" fill="#666" font-size="10">search_cves_by_product(name, limit) → List</text>
+  <text x="55" y="172" fill="#666" font-size="10">_cache: TTLCache(512, 3600s)</text>
+
+  <line x1="45" y1="180" x2="365" y2="180" stroke="#eee" stroke-width="1"/>
+
+  <text x="45" y="198" fill="#333" font-size="11" font-weight="bold">DockerfileAnalyzer</text>
+  <text x="55" y="214" fill="#666" font-size="10">analyze_dockerfile(content) → List[Vulnerability]</text>
+  <text x="55" y="228" fill="#666" font-size="10">VULNERABILITY_PATTERNS: 4 categories, 30+ regex</text>
+  <text x="55" y="242" fill="#666" font-size="10">Checks: secrets, base images, config, supply chain</text>
+
+  <line x1="45" y1="250" x2="365" y2="250" stroke="#eee" stroke-width="1"/>
+
+  <text x="45" y="268" fill="#333" font-size="11" font-weight="bold">VulnerabilityAnalyzer</text>
+  <text x="55" y="284" fill="#666" font-size="10">calculate_risk_score(vulns) → RiskAssessment</text>
+  <text x="55" y="298" fill="#666" font-size="10">prioritize(vulns) → List[Vulnerability]</text>
+
+  <line x1="45" y1="306" x2="365" y2="306" stroke="#eee" stroke-width="1"/>
+
+  <text x="45" y="324" fill="#333" font-size="11" font-weight="bold">ImageScanner</text>
+  <text x="55" y="340" fill="#666" font-size="10">scan_with_trivy(image_uri) → List[Vulnerability]</text>
+  <text x="55" y="354" fill="#666" font-size="10">parse_ecr_findings() / parse_acr_findings()</text>
+  <text x="55" y="368" fill="#666" font-size="10">parse_gar_findings() — cloud-native adapters</text>
+
+  <!-- ====== containervul/cloud/ ====== -->
+  <rect x="400" y="80" width="370" height="310" rx="8" fill="white" stroke="#4facfe" stroke-width="2" filter="url(#ds)"/>
+  <rect x="400" y="80" width="370" height="28" rx="8" fill="#4facfe"/>
+  <text x="585" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/cloud/</text>
+
+  <text x="415" y="128" fill="#333" font-size="11" font-weight="bold">AccountManager</text>
+  <text x="425" y="144" fill="#666" font-size="10">add/remove/list_accounts(provider?) → List[CloudAccount]</text>
+  <text x="425" y="158" fill="#666" font-size="10">load_from_dicts() / to_dicts() — persistence</text>
+
+  <line x1="415" y1="166" x2="755" y2="166" stroke="#eee" stroke-width="1"/>
+
+  <text x="415" y="184" fill="#FF9900" font-size="11" font-weight="bold">aws/</text>
+  <text x="425" y="200" fill="#666" font-size="10">AWSClientFactory — boto3 sessions, STS assume-role</text>
+  <text x="425" y="214" fill="#666" font-size="10">EKSScanner — cluster discovery, K8s API pod images</text>
+  <text x="425" y="228" fill="#666" font-size="10">ECSScanner — task defs, Fargate, image extraction</text>
+  <text x="425" y="242" fill="#666" font-size="10">ECRClient — repos, images, native scan findings</text>
+
+  <line x1="415" y1="250" x2="755" y2="250" stroke="#eee" stroke-width="1"/>
+
+  <text x="415" y="268" fill="#0078D4" font-size="11" font-weight="bold">azure/</text>
+  <text x="425" y="284" fill="#666" font-size="10">AzureClientFactory — DefaultAzureCredential, SP</text>
+  <text x="425" y="298" fill="#666" font-size="10">AKSScanner / ACIScanner / ACRClient</text>
+
+  <line x1="415" y1="306" x2="755" y2="306" stroke="#eee" stroke-width="1"/>
+
+  <text x="415" y="324" fill="#4285F4" font-size="11" font-weight="bold">gcp/</text>
+  <text x="425" y="340" fill="#666" font-size="10">GCPClientFactory — google-auth, service accounts</text>
+  <text x="425" y="354" fill="#666" font-size="10">GKEScanner / CloudRunScanner</text>
+  <text x="425" y="368" fill="#666" font-size="10">ArtifactRegistryClient + Container Analysis API</text>
+
+  <!-- ====== containervul/ai/ ====== -->
+  <rect x="790" y="80" width="350" height="310" rx="8" fill="white" stroke="#a18cd1" stroke-width="2" filter="url(#ds)"/>
+  <rect x="790" y="80" width="350" height="28" rx="8" fill="#a18cd1"/>
+  <text x="965" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/ai/</text>
+
+  <text x="805" y="128" fill="#333" font-size="11" font-weight="bold">VulnerabilityAgent</text>
+  <text x="815" y="144" fill="#666" font-size="10">run(user_msg, max_turns=15) → Generator[AgentEvent]</text>
+  <text x="815" y="158" fill="#666" font-size="10">Claude messages.create() with tool_use</text>
+  <text x="815" y="172" fill="#666" font-size="10">Loops: text → tool_calls → results → text</text>
+
+  <line x1="805" y1="180" x2="1125" y2="180" stroke="#eee" stroke-width="1"/>
+
+  <text x="805" y="198" fill="#333" font-size="11" font-weight="bold">ToolExecutor</text>
+  <text x="815" y="214" fill="#666" font-size="10">13 handlers: scan, cve, cloud, compliance, snow</text>
+  <text x="815" y="228" fill="#666" font-size="10">execute(tool_name, input) → JSON string</text>
+  <text x="815" y="242" fill="#666" font-size="10">TOOL_DEFINITIONS: Claude tool_use schemas</text>
+
+  <line x1="805" y1="250" x2="1125" y2="250" stroke="#eee" stroke-width="1"/>
+
+  <text x="805" y="268" fill="#333" font-size="11" font-weight="bold">AIRemediationEngine</text>
+  <text x="815" y="284" fill="#666" font-size="10">generate_remediation_plan(vulns) → RemediationPlan</text>
+  <text x="815" y="298" fill="#666" font-size="10">generate_fix_script(vuln) → bash script</text>
+  <text x="815" y="312" fill="#666" font-size="10">REMEDIATION_KB: 5 categories, built-in knowledge</text>
+  <text x="815" y="326" fill="#666" font-size="10">_get_ai_recommendations() → Claude enhanced advice</text>
+
+  <line x1="805" y1="334" x2="1125" y2="334" stroke="#eee" stroke-width="1"/>
+
+  <text x="805" y="352" fill="#333" font-size="11" font-weight="bold">prompts.py</text>
+  <text x="815" y="368" fill="#666" font-size="10">AGENT_SYSTEM_PROMPT / REMEDIATION_PROMPT_TEMPLATE</text>
+
+  <!-- ====== containervul/mcp/ ====== -->
+  <rect x="1160" y="80" width="320" height="160" rx="8" fill="white" stroke="#9333ea" stroke-width="2" filter="url(#ds)"/>
+  <rect x="1160" y="80" width="320" height="28" rx="8" fill="#9333ea"/>
+  <text x="1320" y="100" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/mcp/</text>
+
+  <text x="1175" y="128" fill="#333" font-size="11" font-weight="bold">FastMCP Server ("containervul")</text>
+  <text x="1185" y="144" fill="#666" font-size="10">scan_dockerfile, lookup_cve, search_product</text>
+  <text x="1185" y="158" fill="#666" font-size="10">calculate_risk, generate_remediation</text>
+  <text x="1185" y="172" fill="#666" font-size="10">scan_cloud, check_compliance, list_vulns</text>
+  <text x="1185" y="186" fill="#666" font-size="10">servicenow_* (7 tools)</text>
+  <text x="1185" y="200" fill="#666" font-size="10">Resource: containervul://status</text>
+  <text x="1185" y="214" fill="#666" font-size="10">Transport: stdio | sse (port 8100)</text>
+
+  <!-- ====== containervul/integrations/servicenow/ ====== -->
+  <rect x="1160" y="260" width="320" height="130" rx="8" fill="white" stroke="#43e97b" stroke-width="2" filter="url(#ds)"/>
+  <rect x="1160" y="260" width="320" height="28" rx="8" fill="#43e97b"/>
+  <text x="1320" y="280" text-anchor="middle" fill="white" font-size="13" font-weight="bold">integrations/servicenow/</text>
+
+  <text x="1175" y="308" fill="#333" font-size="11" font-weight="bold">ServiceNowClient</text>
+  <text x="1185" y="324" fill="#666" font-size="10">Basic auth + OAuth2, retry (3x backoff)</text>
+  <text x="1185" y="338" fill="#666" font-size="10">query_table / create_record / update_record</text>
+  <text x="1175" y="358" fill="#333" font-size="11" font-weight="bold">VulnerabilityTicketManager</text>
+  <text x="1185" y="374" fill="#666" font-size="10">create_incident / bulk_create / change_request</text>
+
+  <!-- ====== containervul/enterprise/ ====== -->
+  <rect x="30" y="410" width="350" height="200" rx="8" fill="white" stroke="#fa709a" stroke-width="2" filter="url(#ds)"/>
+  <rect x="30" y="410" width="350" height="28" rx="8" fill="#fa709a"/>
+  <text x="205" y="430" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/enterprise/</text>
+
+  <text x="45" y="458" fill="#333" font-size="11" font-weight="bold">RBAC</text>
+  <text x="55" y="474" fill="#666" font-size="10">Roles: Viewer, Analyst, Operator, Admin</text>
+  <text x="55" y="488" fill="#666" font-size="10">has_permission(role, perm) → bool</text>
+
+  <line x1="45" y1="496" x2="365" y2="496" stroke="#eee" stroke-width="1"/>
+
+  <text x="45" y="514" fill="#333" font-size="11" font-weight="bold">AuditLogger</text>
+  <text x="55" y="530" fill="#666" font-size="10">log(action, target, user, result) → AuditEvent</text>
+  <text x="55" y="544" fill="#666" font-size="10">query(user?, action?, since?) → List[AuditEvent]</text>
+
+  <line x1="45" y1="552" x2="365" y2="552" stroke="#eee" stroke-width="1"/>
+
+  <text x="45" y="570" fill="#333" font-size="11" font-weight="bold">compliance/</text>
+  <text x="55" y="586" fill="#666" font-size="10">CISDockerBenchmark.evaluate() — 9 controls</text>
+  <text x="55" y="600" fill="#666" font-size="10">CISKubernetesBenchmark.evaluate() — 8 controls</text>
+
+  <!-- ====== containervul/models.py ====== -->
+  <rect x="400" y="410" width="370" height="200" rx="8" fill="white" stroke="#1a1a2e" stroke-width="2" filter="url(#ds)"/>
+  <rect x="400" y="410" width="370" height="28" rx="8" fill="#1a1a2e"/>
+  <text x="585" y="430" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/models.py — Pydantic</text>
+
+  <text x="415" y="458" fill="#333" font-size="10">Vulnerability(id, severity, category, status, cvss_score, image, ...)</text>
+  <text x="415" y="475" fill="#333" font-size="10">ScanResult(scan_id, target, vulnerabilities, risk_score)</text>
+  <text x="415" y="492" fill="#333" font-size="10">CloudAccount(name, provider, account_id, regions, role_arn)</text>
+  <text x="415" y="509" fill="#333" font-size="10">ContainerImage(image_uri, tag, registry, cloud_provider)</text>
+  <text x="415" y="526" fill="#333" font-size="10">ContainerService(name, service_type, provider, images)</text>
+  <text x="415" y="543" fill="#333" font-size="10">RiskAssessment(total_score, risk_level, severity_breakdown)</text>
+  <text x="415" y="560" fill="#333" font-size="10">RemediationPlan(immediate/short/long_term_actions)</text>
+  <text x="415" y="577" fill="#333" font-size="10">ComplianceReport(framework, controls, score)</text>
+  <text x="415" y="594" fill="#333" font-size="10">AgentEvent(type, content, tool_name, tool_result)</text>
+  <text x="415" y="600" fill="#333" font-size="10">AuditEvent(user, action, target, result)</text>
+
+  <!-- ====== containervul/ui/ ====== -->
+  <rect x="790" y="410" width="690" height="200" rx="8" fill="white" stroke="#667eea" stroke-width="2" filter="url(#ds)"/>
+  <rect x="790" y="410" width="690" height="28" rx="8" fill="#667eea"/>
+  <text x="1135" y="430" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/ui/ — Streamlit Pages</text>
+
+  <!-- Left column -->
+  <text x="805" y="458" fill="#333" font-size="11" font-weight="bold">app.py — ContainerVulnerabilityPlatform</text>
+  <text x="815" y="474" fill="#666" font-size="10">PAGES registry (12 pages), NAV_GROUPS (6 groups)</text>
+  <text x="815" y="488" fill="#666" font-size="10">Dynamic import: importlib.import_module(page)</text>
+
+  <text x="805" y="510" fill="#333" font-size="11" font-weight="bold">styles.py / components.py / sidebar.py</text>
+  <text x="815" y="526" fill="#666" font-size="10">Custom CSS, reusable cards, sidebar config</text>
+
+  <!-- Right column: Pages grid -->
+  <rect x="1130" y="448" width="115" height="25" rx="4" fill="#f5576c" opacity="0.8"/>
+  <text x="1187" y="465" text-anchor="middle" fill="white" font-size="9">dashboard.py</text>
+  <rect x="1255" y="448" width="115" height="25" rx="4" fill="#f5576c" opacity="0.8"/>
+  <text x="1312" y="465" text-anchor="middle" fill="white" font-size="9">dockerfile_scan.py</text>
+
+  <rect x="1130" y="480" width="115" height="25" rx="4" fill="#4facfe" opacity="0.8"/>
+  <text x="1187" y="497" text-anchor="middle" fill="white" font-size="9">cloud_scanning.py</text>
+  <rect x="1255" y="480" width="115" height="25" rx="4" fill="#4facfe" opacity="0.8"/>
+  <text x="1312" y="497" text-anchor="middle" fill="white" font-size="9">cve_lookup.py</text>
+
+  <rect x="1130" y="512" width="115" height="25" rx="4" fill="#a18cd1" opacity="0.8"/>
+  <text x="1187" y="529" text-anchor="middle" fill="white" font-size="9">agent_chat.py</text>
+  <rect x="1255" y="512" width="115" height="25" rx="4" fill="#a18cd1" opacity="0.8"/>
+  <text x="1312" y="529" text-anchor="middle" fill="white" font-size="9">ai_remediation.py</text>
+
+  <rect x="1130" y="544" width="115" height="25" rx="4" fill="#fa709a" opacity="0.8"/>
+  <text x="1187" y="561" text-anchor="middle" fill="white" font-size="9">compliance.py</text>
+  <rect x="1255" y="544" width="115" height="25" rx="4" fill="#fa709a" opacity="0.8"/>
+  <text x="1312" y="561" text-anchor="middle" fill="white" font-size="9">analytics.py</text>
+
+  <rect x="1130" y="576" width="115" height="25" rx="4" fill="#43e97b" opacity="0.8"/>
+  <text x="1187" y="593" text-anchor="middle" fill="white" font-size="9">servicenow.py</text>
+  <rect x="1255" y="576" width="115" height="25" rx="4" fill="#667eea" opacity="0.8"/>
+  <text x="1312" y="593" text-anchor="middle" fill="white" font-size="9">reports.py</text>
+
+  <!-- ====== Dependency Arrows ====== -->
+  <!-- core ← ai -->
+  <line x1="790" y1="250" x2="385" y2="250" stroke="#888" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5,3"/>
+  <text x="550" y="244" fill="#888" font-size="9">uses</text>
+
+  <!-- core ← cloud -->
+  <line x1="400" y1="300" x2="385" y2="300" stroke="#888" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5,3"/>
+
+  <!-- ai ← mcp -->
+  <line x1="1160" y1="160" x2="1145" y2="220" stroke="#888" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5,3"/>
+  <text x="1140" y="185" fill="#888" font-size="9">delegates</text>
+
+  <!-- ai ← snow -->
+  <line x1="1160" y1="340" x2="1145" y2="310" stroke="#888" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5,3"/>
+
+  <!-- ui → all -->
+  <line x1="790" y1="530" x2="385" y2="500" stroke="#888" stroke-width="1.5" marker-end="url(#a)" stroke-dasharray="5,3"/>
+  <text x="560" y="510" fill="#888" font-size="9">imports</text>
+
+  <!-- ====== Config & Storage ====== -->
+  <rect x="30" y="630" width="350" height="80" rx="8" fill="white" stroke="#555" stroke-width="1.5" filter="url(#ds)"/>
+  <rect x="30" y="630" width="350" height="28" rx="8" fill="#555"/>
+  <text x="205" y="650" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/config.py</text>
+  <text x="45" y="678" fill="#666" font-size="10">Settings(BaseSettings) — pydantic-settings</text>
+  <text x="45" y="694" fill="#666" font-size="10">CVE, AI, AWS, Azure, GCP, ServiceNow, MCP, Storage</text>
+
+  <rect x="400" y="630" width="370" height="80" rx="8" fill="white" stroke="#555" stroke-width="1.5" filter="url(#ds)"/>
+  <rect x="400" y="630" width="370" height="28" rx="8" fill="#555"/>
+  <text x="585" y="650" text-anchor="middle" fill="white" font-size="13" font-weight="bold">containervul/storage/</text>
+  <text x="415" y="678" fill="#666" font-size="10">VulnerabilityStore (ABC) → InMemoryStore</text>
+  <text x="415" y="694" fill="#666" font-size="10">save/get_all/get_by_status/update_status/clear</text>
+
+  <!-- ====== Legend ====== -->
+  <rect x="30" y="730" width="1450" height="50" rx="6" fill="white" stroke="#ddd"/>
+  <text x="50" y="758" fill="#333" font-size="11" font-weight="bold">Packages:</text>
+  <rect x="120" y="746" width="12" height="12" rx="2" fill="#f5576c"/><text x="138" y="758" fill="#555" font-size="10">core</text>
+  <rect x="175" y="746" width="12" height="12" rx="2" fill="#4facfe"/><text x="193" y="758" fill="#555" font-size="10">cloud</text>
+  <rect x="235" y="746" width="12" height="12" rx="2" fill="#a18cd1"/><text x="253" y="758" fill="#555" font-size="10">ai</text>
+  <rect x="275" y="746" width="12" height="12" rx="2" fill="#9333ea"/><text x="293" y="758" fill="#555" font-size="10">mcp</text>
+  <rect x="325" y="746" width="12" height="12" rx="2" fill="#43e97b"/><text x="343" y="758" fill="#555" font-size="10">servicenow</text>
+  <rect x="415" y="746" width="12" height="12" rx="2" fill="#fa709a"/><text x="433" y="758" fill="#555" font-size="10">enterprise</text>
+  <rect x="505" y="746" width="12" height="12" rx="2" fill="#667eea"/><text x="523" y="758" fill="#555" font-size="10">ui</text>
+  <rect x="555" y="746" width="12" height="12" rx="2" fill="#1a1a2e"/><text x="573" y="758" fill="#555" font-size="10">models</text>
+  <line x1="640" y1="755" x2="680" y2="755" stroke="#888" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#a)"/>
+  <text x="690" y="758" fill="#555" font-size="10">dependency</text>
+</svg>

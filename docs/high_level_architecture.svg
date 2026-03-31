@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="hdr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0f3460"/>
+      <stop offset="100%" style="stop-color:#533483"/>
+    </linearGradient>
+    <linearGradient id="uiGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea"/>
+      <stop offset="100%" style="stop-color:#764ba2"/>
+    </linearGradient>
+    <linearGradient id="coreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb"/>
+      <stop offset="100%" style="stop-color:#f5576c"/>
+    </linearGradient>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe"/>
+      <stop offset="100%" style="stop-color:#00f2fe"/>
+    </linearGradient>
+    <linearGradient id="aiGr" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#a18cd1"/>
+      <stop offset="100%" style="stop-color:#fbc2eb"/>
+    </linearGradient>
+    <linearGradient id="intGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#43e97b"/>
+      <stop offset="100%" style="stop-color:#38f9d7"/>
+    </linearGradient>
+    <linearGradient id="entGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fa709a"/>
+      <stop offset="100%" style="stop-color:#fee140"/>
+    </linearGradient>
+    <filter id="sh" x="-3%" y="-3%" width="108%" height="112%">
+      <feDropShadow dx="2" dy="3" stdDeviation="5" flood-color="#00000025"/>
+    </filter>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+    </marker>
+    <marker id="arrW" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="white"/>
+    </marker>
+  </defs>
+
+  <rect width="1400" height="1000" fill="#f5f7ff" rx="12"/>
+
+  <!-- Header -->
+  <rect x="30" y="15" width="1340" height="60" rx="10" fill="url(#hdr)"/>
+  <text x="700" y="52" text-anchor="middle" fill="white" font-size="24" font-weight="bold">ContainerVul — High Level Architecture</text>
+
+  <!-- ====== Users Layer ====== -->
+  <rect x="50" y="95" width="1300" height="85" rx="10" fill="#eef0ff" stroke="#667eea" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="70" y="118" fill="#667eea" font-size="14" font-weight="bold">USERS &amp; INTERFACES</text>
+
+  <rect x="80" y="130" width="140" height="38" rx="8" fill="url(#uiGrad)" filter="url(#sh)"/>
+  <text x="150" y="154" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Web Browser</text>
+
+  <rect x="240" y="130" width="140" height="38" rx="8" fill="url(#uiGrad)" filter="url(#sh)"/>
+  <text x="310" y="154" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Streamlit UI</text>
+
+  <rect x="400" y="130" width="160" height="38" rx="8" fill="url(#aiGr)" filter="url(#sh)"/>
+  <text x="480" y="154" text-anchor="middle" fill="white" font-size="12" font-weight="bold">AI Agent Chat</text>
+
+  <rect x="580" y="130" width="160" height="38" rx="8" fill="url(#aiGr)" filter="url(#sh)"/>
+  <text x="660" y="154" text-anchor="middle" fill="white" font-size="12" font-weight="bold">MCP Clients</text>
+
+  <rect x="760" y="130" width="160" height="38" rx="8" fill="url(#aiGr)" filter="url(#sh)"/>
+  <text x="840" y="154" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Claude Desktop</text>
+
+  <rect x="940" y="130" width="140" height="38" rx="8" fill="url(#uiGrad)" filter="url(#sh)"/>
+  <text x="1010" y="154" text-anchor="middle" fill="white" font-size="12" font-weight="bold">REST API</text>
+
+  <!-- ====== Application Layer ====== -->
+  <rect x="50" y="200" width="1300" height="240" rx="10" fill="white" stroke="#f5576c" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="70" y="225" fill="#f5576c" font-size="14" font-weight="bold">APPLICATION LAYER — containervul/</text>
+
+  <!-- Core Scanning -->
+  <rect x="80" y="240" width="260" height="180" rx="8" fill="#fff5f5" stroke="#f5576c" stroke-width="1.5"/>
+  <rect x="80" y="240" width="260" height="30" rx="8" fill="url(#coreGrad)"/>
+  <text x="210" y="260" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Core Scanning Engine</text>
+  <text x="100" y="290" fill="#333" font-size="11">• DockerfileAnalyzer (30+ patterns)</text>
+  <text x="100" y="308" fill="#333" font-size="11">• CVEIntegrator (NIST NVD API)</text>
+  <text x="100" y="326" fill="#333" font-size="11">• VulnerabilityAnalyzer (risk scoring)</text>
+  <text x="100" y="344" fill="#333" font-size="11">• ImageScanner (Trivy + native)</text>
+  <text x="100" y="362" fill="#333" font-size="11">• 5 severity levels, priority ranking</text>
+  <text x="100" y="380" fill="#333" font-size="11">• TTL-cached API responses</text>
+
+  <!-- AI Engine -->
+  <rect x="360" y="240" width="260" height="180" rx="8" fill="#f5f0ff" stroke="#a18cd1" stroke-width="1.5"/>
+  <rect x="360" y="240" width="260" height="30" rx="8" fill="url(#aiGr)"/>
+  <text x="490" y="260" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Agentic AI Engine</text>
+  <text x="380" y="290" fill="#333" font-size="11">• Claude tool-use agent (13 tools)</text>
+  <text x="380" y="308" fill="#333" font-size="11">• Autonomous scan → analyze → fix</text>
+  <text x="380" y="326" fill="#333" font-size="11">• Remediation knowledge base</text>
+  <text x="380" y="344" fill="#333" font-size="11">• Fix script generation</text>
+  <text x="380" y="362" fill="#333" font-size="11">• MCP Server (FastMCP, 15 tools)</text>
+  <text x="380" y="380" fill="#333" font-size="11">• System prompt engineering</text>
+
+  <!-- Cloud Providers -->
+  <rect x="640" y="240" width="260" height="180" rx="8" fill="#f0faff" stroke="#4facfe" stroke-width="1.5"/>
+  <rect x="640" y="240" width="260" height="30" rx="8" fill="url(#cloudGrad)"/>
+  <text x="770" y="260" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Multi-Cloud Module</text>
+  <text x="660" y="290" fill="#333" font-size="11">• AWS: EKS, ECS, ECR</text>
+  <text x="660" y="308" fill="#333" font-size="11">• Azure: AKS, ACI, ACR</text>
+  <text x="660" y="326" fill="#333" font-size="11">• GCP: GKE, Cloud Run, GAR</text>
+  <text x="660" y="344" fill="#333" font-size="11">• Multi-account manager</text>
+  <text x="660" y="362" fill="#333" font-size="11">• Cross-account assume-role</text>
+  <text x="660" y="380" fill="#333" font-size="11">• K8s API pod image extraction</text>
+
+  <!-- Enterprise & Integrations -->
+  <rect x="920" y="240" width="410" height="180" rx="8" fill="#f0fff5" stroke="#43e97b" stroke-width="1.5"/>
+  <rect x="920" y="240" width="410" height="30" rx="8" fill="url(#intGrad)"/>
+  <text x="1125" y="260" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Enterprise &amp; Integrations</text>
+  <text x="940" y="290" fill="#333" font-size="11">• ServiceNow: Incidents, CMDB, Change Requests</text>
+  <text x="940" y="308" fill="#333" font-size="11">• Bidirectional ticket sync</text>
+  <text x="940" y="326" fill="#333" font-size="11">• Compliance: CIS Docker, CIS K8s, NIST 800-190</text>
+  <text x="940" y="344" fill="#333" font-size="11">• RBAC: Viewer / Analyst / Operator / Admin</text>
+  <text x="940" y="362" fill="#333" font-size="11">• Audit logging with structured events</text>
+  <text x="940" y="380" fill="#333" font-size="11">• Reports: Executive, Technical, Remediation</text>
+
+  <!-- ====== External Services Layer ====== -->
+  <rect x="50" y="460" width="1300" height="130" rx="10" fill="white" stroke="#4facfe" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="70" y="485" fill="#4facfe" font-size="14" font-weight="bold">EXTERNAL SERVICES</text>
+
+  <!-- AWS -->
+  <rect x="80" y="500" width="170" height="70" rx="8" fill="#FF9900" filter="url(#sh)"/>
+  <text x="165" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">AWS</text>
+  <text x="165" y="550" text-anchor="middle" fill="white" font-size="10">EKS • ECS • ECR • STS</text>
+
+  <rect x="270" y="500" width="170" height="70" rx="8" fill="#0078D4" filter="url(#sh)"/>
+  <text x="355" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Azure</text>
+  <text x="355" y="550" text-anchor="middle" fill="white" font-size="10">AKS • ACI • ACR</text>
+
+  <rect x="460" y="500" width="170" height="70" rx="8" fill="#4285F4" filter="url(#sh)"/>
+  <text x="545" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">GCP</text>
+  <text x="545" y="550" text-anchor="middle" fill="white" font-size="10">GKE • Cloud Run • GAR</text>
+
+  <rect x="650" y="500" width="170" height="70" rx="8" fill="#D4421E" filter="url(#sh)"/>
+  <text x="735" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">NIST NVD</text>
+  <text x="735" y="550" text-anchor="middle" fill="white" font-size="10">CVE Database API</text>
+
+  <rect x="840" y="500" width="170" height="70" rx="8" fill="#CC6633" filter="url(#sh)"/>
+  <text x="925" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Anthropic</text>
+  <text x="925" y="550" text-anchor="middle" fill="white" font-size="10">Claude API (tool_use)</text>
+
+  <rect x="1030" y="500" width="170" height="70" rx="8" fill="#62D84E" filter="url(#sh)"/>
+  <text x="1115" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">ServiceNow</text>
+  <text x="1115" y="550" text-anchor="middle" fill="white" font-size="10">Table API • CMDB API</text>
+
+  <rect x="1220" y="500" width="110" height="70" rx="8" fill="#2A0845" filter="url(#sh)"/>
+  <text x="1275" y="530" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Trivy</text>
+  <text x="1275" y="550" text-anchor="middle" fill="white" font-size="10">Image Scanner</text>
+
+  <!-- ====== Data Flow Arrows ====== -->
+  <!-- Users to App -->
+  <line x1="310" y1="168" x2="310" y2="195" stroke="#666" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="660" y1="168" x2="490" y2="235" stroke="#666" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- App to External -->
+  <line x1="210" y1="420" x2="165" y2="495" stroke="#f5576c" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="770" y1="420" x2="545" y2="495" stroke="#4facfe" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="770" y1="420" x2="355" y2="495" stroke="#4facfe" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="210" y1="420" x2="735" y2="495" stroke="#f5576c" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="490" y1="420" x2="925" y2="495" stroke="#a18cd1" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="1125" y1="420" x2="1115" y2="495" stroke="#43e97b" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- ====== Data Storage Layer ====== -->
+  <rect x="50" y="610" width="1300" height="90" rx="10" fill="white" stroke="#fa709a" stroke-width="1.5" filter="url(#sh)"/>
+  <text x="70" y="635" fill="#fa709a" font-size="14" font-weight="bold">DATA LAYER</text>
+
+  <rect x="100" y="650" width="200" height="38" rx="8" fill="url(#entGrad)" filter="url(#sh)"/>
+  <text x="200" y="674" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Session State (Streamlit)</text>
+
+  <rect x="330" y="650" width="200" height="38" rx="8" fill="url(#entGrad)" filter="url(#sh)"/>
+  <text x="430" y="674" text-anchor="middle" fill="white" font-size="12" font-weight="bold">SQLite (optional)</text>
+
+  <rect x="560" y="650" width="200" height="38" rx="8" fill="url(#entGrad)" filter="url(#sh)"/>
+  <text x="660" y="674" text-anchor="middle" fill="white" font-size="12" font-weight="bold">TTL Cache (cachetools)</text>
+
+  <rect x="790" y="650" width="200" height="38" rx="8" fill="url(#entGrad)" filter="url(#sh)"/>
+  <text x="890" y="674" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Audit Event Log</text>
+
+  <rect x="1020" y="650" width="200" height="38" rx="8" fill="url(#entGrad)" filter="url(#sh)"/>
+  <text x="1120" y="674" text-anchor="middle" fill="white" font-size="12" font-weight="bold">SNOW Ticket Cache</text>
+
+  <!-- Key Metrics -->
+  <rect x="50" y="720" width="1300" height="70" rx="10" fill="url(#hdr)" filter="url(#sh)"/>
+  <text x="140" y="755" fill="white" font-size="14" font-weight="bold">85+ Python files</text>
+  <text x="340" y="755" fill="white" font-size="14" font-weight="bold">13 AI Agent Tools</text>
+  <text x="540" y="755" fill="white" font-size="14" font-weight="bold">15 MCP Tools</text>
+  <text x="710" y="755" fill="white" font-size="14" font-weight="bold">3 Cloud Providers</text>
+  <text x="910" y="755" fill="white" font-size="14" font-weight="bold">9 Container Services</text>
+  <text x="1130" y="755" fill="white" font-size="14" font-weight="bold">3 Compliance Frameworks</text>
+
+  <!-- Separator dots -->
+  <circle cx="275" cy="752" r="3" fill="white" opacity="0.5"/>
+  <circle cx="475" cy="752" r="3" fill="white" opacity="0.5"/>
+  <circle cx="645" cy="752" r="3" fill="white" opacity="0.5"/>
+  <circle cx="850" cy="752" r="3" fill="white" opacity="0.5"/>
+  <circle cx="1070" cy="752" r="3" fill="white" opacity="0.5"/>
+</svg>
